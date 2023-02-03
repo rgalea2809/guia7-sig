@@ -34,14 +34,6 @@ var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 maxZoom: 18
 });
 
-
-var amss = L.tileLayer.wms("http://localhost:8080/geoserver/wms", {
- layers: 'amss',
- format: 'image/png',
- transparent: true,
- attribution: "Centro Nacional de Registros"
-});
-
 var rios = L.tileLayer.wms("http://localhost:8080/geoserver/wms", {
  layers: 'rios',
  format: 'image/png',
@@ -49,13 +41,31 @@ var rios = L.tileLayer.wms("http://localhost:8080/geoserver/wms", {
  attribution: "Centro Nacional de Registros"
 });
 
+var cerros = L.tileLayer.wms("http://localhost:8080/geoserver/wms", {
+ layers: 'cerros',
+ format: 'image/png',
+ transparent: true,
+ attribution: "Centro Nacional de Registros"
+});
+
+
+var municipios = L.tileLayer.wms("http://localhost:8080/geoserver/wms", {
+ layers: 'municipios',
+ format: 'image/png',
+ transparent: true,
+ attribution: "Centro Nacional de Registros"
+});
+
+
+
 //Añadimos los dos objetos
 var baseMaps = {
  "OpenStreetMap": osm
 };
 var overlayMaps = {
- "AMSS": amss, 
+  "municipios": municipios,
   "rios": rios,
+  "cerros": cerros,
  };
 
 //Creamos el mapa
@@ -63,7 +73,7 @@ var map = L.map('map', {
 center: new L.LatLng(13.65, -89.17),
 zoom: 10,
 //Añadimos las capas al mapa
-layers: [osm, amss, rios]
+layers: [osm, municipios, rios, cerros]
 });
 
 
@@ -72,7 +82,7 @@ var title = L.control();
 title.onAdd = function (map) {
  var div = L.DomUtil.create('div', 'info');
  div.innerHTML +=
- '<h2>Densidad poblacional AMSS</h2>Censo 2007';
+ '<h2>Capas base de El Salvador</h2>';
  return div;
 };
 title.addTo(map);
